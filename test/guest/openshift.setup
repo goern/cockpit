@@ -29,7 +29,7 @@ function wait() {
     exit 6
 }
 
-hostnamectl set-hostname f1.cockpit.lan
+hostnamectl set-hostname f1.cockpit.example.com
 
 # This name is put into /etc/hosts later
 echo "INSECURE_REGISTRY='--insecure-registry registry:5000'" >> /etc/sysconfig/docker
@@ -82,7 +82,7 @@ oc create -f /tmp/imagestream.json
 
 # Get registry address and configure docker for it
 address="$(oc get services docker-registry | tail -n1 | awk -v N=2 '{print $N}')"
-echo "$address     registry registry.cockpit.lan" >> /etc/hosts
+echo "$address     registry registry.cockpit.example.com" >> /etc/hosts
 
 # Log in as another user
 printf "scruffy\r\nscruffy\r\n" | oc login

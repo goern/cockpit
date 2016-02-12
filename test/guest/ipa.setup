@@ -10,7 +10,7 @@ iptables -F
 dnf -y --enablerepo=updates-testing update
 dnf -y --enablerepo=updates-testing install freeipa-server bind bind-dyndb-ldap
 
-hostnamectl set-hostname f0.cockpit.lan
+hostnamectl set-hostname f0.cockpit.example.com
 
 # Let's make sure that ipa-server-install doesn't block on
 # /dev/random.
@@ -18,7 +18,7 @@ hostnamectl set-hostname f0.cockpit.lan
 rm -f /dev/random
 ln -s /dev/urandom /dev/random
 
-ipa-server-install -U -p foobarfoo -a foobarfoo -n cockpit.lan -r COCKPIT.LAN --setup-dns --no-forwarders
+ipa-server-install -U -p foobarfoo -a foobarfoo -n cockpit.example.com -r COCKPIT.EXAMPLE.COM --setup-dns --no-forwarders
 
 # Make sure any initial password change is overridden
 printf 'foobarfoo\nfoobarfoo\nfoobarfoo\n' | kinit admin@COCKPIT.LAN
