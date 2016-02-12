@@ -32,8 +32,8 @@ class TestStorage(StorageCase):
         m = self.machine
         b = self.browser
 
-        target_iqn = "iqn.2015-09.cockpit.lan"
-        initiator_iqn = "iqn.2015-10.cockpit.lan"
+        target_iqn = "iqn.2015-09.cockpit.example.com"
+        initiator_iqn = "iqn.2015-10.cockpit.example.com"
 
         # Setup a iSCSI target with authentication for discovery and join
         #

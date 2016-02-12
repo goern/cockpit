@@ -296,7 +296,7 @@ with either Active Directory or IPA.
 If you do not have a domain available that you can use, or don't have
 sufficient privileges on the domain to test Cockpit's features, you can
 use the IPA server that comes with from Cockpit's integration tests.
-The domain is called 'cockpit.lan'. On a physical machine, with the
+The domain is called 'cockpit.example.com'. On a physical machine, with the
 cockpit sources checked out, here's how you get it running:
 
     $ cd /path/to/src/cockpit
@@ -313,19 +313,19 @@ Your client machines (with your web browser) and your server machines
 the IPA server. You can do the following to make that happen:
 
     $ sudo -s
-    # echo -e 'domain cockpit.lan\nnameserver 10.111.111.100\n' > \
+    # echo -e 'domain cockpit.example.com\nnameserver 10.111.111.100\n' > \
             /etc/resolv.conf
 
 To test your DNS, the following should succeed without any error messages
 on both your client machines, and your server with cockpit:
 
-    $ host cockpit.lan
+    $ host cockpit.example.com
 
 Now verify that you can authenticate against the IPA server. See password
 above.
 
-    $ kinit admin@COCKPIT.LAN
-    Password for admin@COCKPIT.LAN:
+    $ kinit admin@COCKPIT.EXAMPLE.COM
+    Password for admin@COCKPIT.EXAMPLE.COM:
 
 **BUG:** IPA often fails to start up correctly on system boot. You may
 have to log into the IPA server and run `systemctl start ipa`.
@@ -346,7 +346,7 @@ http://files.cockpit-project.org/guide/sso.html
 the domain name. If it does not, then rename the computer Cockpit is running on:
 [realmd bug](https://bugzilla.redhat.com/show_bug.cgi?id=1144343)
 
-    $ sudo hostnamectl set-hostname my-server.domain.com
+    $ sudo hostnamectl set-hostname my-server.cockpit.example.com
 
 **BUG:** If your domain is an IPA domain, then you need to explictly add a service
 before Cockpit can be used with Single Sign on. The following must be done on
@@ -354,13 +354,13 @@ the computer running Cockpit.
 [realmd bug](https://bugzilla.redhat.com/show_bug.cgi?id=1144292)
 
     $ sudo -s
-    # kinit admin@COCKPIT.LAN
-    # curl -s --negotiate -u : https://f0.cockpit.lan/ipa/json \
-            --header 'Referer: https://f0.cockpit.lan/ipa' \
+    # kinit admin@COCKPIT.EXAMPLE.COM
+    # curl -s --negotiate -u : https://f0.cockpit.example.com/ipa/json \
+            --header 'Referer: https://f0.cockpit.example.com/ipa' \
             --header "Content-Type: application/json" \
             --header "Accept: application/json" \
-            --data '{"params": [["HTTP/my-server.cockpit.lan@COCKPIT.LAN"], {"raw": false, "all": false, "version": "2.101", "force": true, "no_members": false}], "method": "service_add", "id": 0}'
-    # ipa-getkeytab -q -s f0.cockpit.lan -p HTTP/my-server.cockpit.lan \
+            --data '{"params": [["HTTP/my-server.cockpit.example.com@COCKPIT.EXAMPLE.COM"], {"raw": false, "all": false, "version": "2.101", "force": true, "no_members": false}], "method": "service_add", "id": 0}'
+    # ipa-getkeytab -q -s f0.cockpit.example.com -p HTTP/my-server.cockpit.example.com \
             -k /etc/krb5.keytab
 
 Now when you go to your cockpit instance you should be able to log in without
@@ -371,7 +371,7 @@ If you want to use Cockpit to connect to a second server. Make sure that second
 server is joined to a domain, and that you can ssh into it using GSSAPI authentication
 with the domain user:
 
-    $ ssh -o PreferredAuthentications=gssapi-with-mic admin@my-server2.domain.com
+    $ ssh -o PreferredAuthentications=gssapi-with-mic admin@my-server2.cockpit.example.com
 
 If you thought that was nasty and tiresome, it's because it is at present :S
 

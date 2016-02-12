@@ -59,7 +59,7 @@ class TestSystemInfo(MachineCase):
         b.click('#system_information_hostname_button')
         b.wait_popup("system_information_change_hostname")
         b.wait_val("#sich-pretty-hostname", "Adventure Box")
-        b.set_val("#sich-hostname", "host1.cockpit.lan")
+        b.set_val("#sich-hostname", "host1.cockpit.example.com")
         b.click("#system_information_change_hostname button:contains('Change')")
         b.wait_popdown("system_information_change_hostname")
 
@@ -70,20 +70,20 @@ class TestSystemInfo(MachineCase):
         else:
             b.wait_not_visible("#system-ostree-version")
 
-        b.wait_text('#system_information_hostname_button', "Adventure Box (host1.cockpit.lan)")
+        b.wait_text('#system_information_hostname_button', "Adventure Box (host1.cockpit.example.com)")
         # HACK /usr/bin/hostname output is delayed in systemd v208, so that DBus gets notified early
         # this issue is resolved in systemd v219
         tries_left = 5
         current_hostname = ""
         while tries_left > 0:
             current_hostname = m.execute("hostname")
-            if current_hostname == "host1.cockpit.lan\n":
+            if current_hostname == "host1.cockpit.example.com\n":
                 break
             # wait a bit and try again
             time.sleep(1)
             tries_left = tries_left - 1
 
-        self.assertEqual(current_hostname, "host1.cockpit.lan\n")
+        self.assertEqual(current_hostname, "host1.cockpit.example.com\n")
 
     def testTime(self):
         m = self.machine
