@@ -21,7 +21,7 @@ ln -s /dev/urandom /dev/random
 ipa-server-install -U -p foobarfoo -a foobarfoo -n cockpit.example.com -r COCKPIT.EXAMPLE.COM --setup-dns --no-forwarders
 
 # Make sure any initial password change is overridden
-printf 'foobarfoo\nfoobarfoo\nfoobarfoo\n' | kinit admin@COCKPIT.LAN
+printf 'foobarfoo\nfoobarfoo\nfoobarfoo\n' | kinit admin@COCKPIT.EXAMPLE.COM
 
 ln -sf ../selinux/config /etc/sysconfig/selinux
 echo 'SELINUX=permissive' > /etc/selinux/config
